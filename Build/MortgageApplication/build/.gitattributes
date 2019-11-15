@@ -5,7 +5,6 @@
 # file encodings
 *.cpy zos-working-tree-encoding=ibm-1047 git-encoding=utf-8
 *.cbl zos-working-tree-encoding=ibm-1047 git-encoding=utf-8
-*.pw zos-working-tree-encoding=ibm-1047 git-encoding=utf-8
 *.bms zos-working-tree-encoding=ibm-1047 git-encoding=utf-8
 *.pli zos-working-tree-encoding=ibm-1047 git-encoding=utf-8
 *.lnk zos-working-tree-encoding=ibm-1047 git-encoding=utf-8
