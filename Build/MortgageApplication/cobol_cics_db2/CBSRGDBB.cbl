@@ -22,7 +22,7 @@
            COPY CSRGRES.
       *     05 LS-ACCOUNT-NO PIC S9(18).
       *     05 LS-MESSAGES REDEFINES LS-ACCOUNT-NO PIC X(100).
-      *     05  MESSAGES-DAT  PIC X(500).
+      *     05  MESSAGES-DATE  PIC X(500).
       *    05 WS-INPUT
       *    05 WS-OUTPUT.
       *    COPY RESCPY.
