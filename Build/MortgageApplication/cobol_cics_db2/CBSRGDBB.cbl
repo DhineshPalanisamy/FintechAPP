@@ -25,7 +25,7 @@
       *     05  MESSAGES-DAT  PIC X(500).
       *    05 WS-INPUT
       *    05 WS-OUTPUT.
-      *    COPY RESCPY.
+      **    COPY RESCPY.
        PROCEDURE DIVISION.
            MOVE LOW-VALUES TO DCLCBS-ACCT-MSTR-DTL.
            MOVE ACCOUNT-NO TO WS-ACCOUNT-NO-T.
