@@ -40,7 +40,7 @@
        01 W-COMAREA-LENGTH                    PIC 9(4) COMP.
 
        01  SQL-ERROR-MSG.
-           03  FILLER              PIC X(11)      VALUE 'SQL ERROR: '.
+           03  FILLER              PIC X(11)      VALUE 'SQL ERRR: '.
            03  SQL-ERROR-CODE      PIC 9(5) DISPLAY.
       *
            EXEC SQL
