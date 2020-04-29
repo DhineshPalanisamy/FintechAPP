@@ -108,7 +108,7 @@
                         RETURN
                    END-EXEC
                WHEN EIBAID = DFHENTER
-      * Process ENTER Key
+      * Process ENTER Key on April 28
                    PERFORM A100-PROCESS-MAP
                WHEN OTHER
       * Present Invalid Key
