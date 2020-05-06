@@ -113,7 +113,7 @@ def cmd = [ properties.buztoolPath,
 	"$properties.workDir/shiplist.xml",
         //requires UCD v6.2.6 and above
         "-ar",
-        "$properties.artifactrepository",
+        "{$properties.artifactrepository}/nexus.properties",
 	"-o",
 	"${properties.workDir}/buztool.output"
     	]
