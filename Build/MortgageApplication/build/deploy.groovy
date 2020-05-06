@@ -5,21 +5,21 @@ import com.ibm.dbb.build.report.records.*
 import groovy.time.*
 import groovy.xml.MarkupBuilder
 /**
- * This script creates a version in UrbanCode Deploy based on the build result. 
+ * This script creates a version in UrbanCode Deploy based on the build result.
  *
- * usage: deploy.groovy [options] 
- * 
+ * usage: deploy.groovy [options]
+ *
  * options:
  *  -b,--buztool <file>           Absolute path to UrbanCode Deploy buztool.sh script
  *  -w,--workDir <dir>            Absolute path to the DBB build output directory
  *  -c,--component <name>         Name of the UCD component to create version in
  *  -h,--help                     Prints this message
- *  
- * note: 
+ *
+ * note:
  *   This script uses ship list specification and buztool parameters which are
- *   introduced since UCD v6.2.6. When used with an earlier version of UCD, please 
- *   modify the script to remove the code that creates the top level property and 
- *   the code that uses the -o buztool parameter.  
+ *   introduced since UCD v6.2.6. When used with an earlier version of UCD, please
+ *   modify the script to remove the code that creates the top level property and
+ *   the code that uses the -o buztool parameter.
  */
 // start create version
 def properties = parseInput(args)
@@ -40,43 +40,43 @@ def buildReport= BuildReport.parse(new FileInputStream(jsonOutputFile))
 def buildResult = buildReport.getRecords().findAll{it.getType()==DefaultRecordFactory.TYPE_BUILD_RESULT}[0];
 def dependencies = buildReport.getRecords().findAll{it.getType()==DefaultRecordFactory.TYPE_DEPENDENCY_SET};
 
-// parse build report to find the build outputs to be deployed. 
+// parse build report to find the build outputs to be deployed.
 println("** Find deployable outputs in the build report ")
 // the following example finds all the build output with deployType set
 def executes= buildReport.getRecords().findAll{
-	it.getType()==DefaultRecordFactory.TYPE_EXECUTE && 
-	!it.getOutputs().findAll{ o -> 
+	it.getType()==DefaultRecordFactory.TYPE_EXECUTE &&
+	!it.getOutputs().findAll{ o ->
 		o.deployType != null
 	}.isEmpty()
-} 
+}
 
-// the following example finds all the build output in *.LOAD data set 
+// the following example finds all the build output in *.LOAD data set
 //def executes= buildReport.getRecords().findAll{
 //	it.getType()==DefaultRecordFactory.TYPE_EXECUTE &&
-//	!it.getOutputs().findAll{ o -> 
+//	!it.getOutputs().findAll{ o ->
 //		def (ds,member) = getDatasetName(o.dataset)
 //		return ds.endsWith(".LOAD")
 //	}.isEmpty()
-//} 
+//}
 executes.each { it.getOutputs().each { println("   ${it.dataset}, ${it.deployType}")}}
 
-// generate ship list file. specification of UCD ship list can be found at 
+// generate ship list file. specification of UCD ship list can be found at
 // https://www.ibm.com/support/knowledgecenter/SS4GSP_6.2.7/com.ibm.udeploy.doc/topics/zos_shiplistfiles.html
 println("** Generate UCD ship list file")
 def writer = new StringWriter()
 writer.write("<?xml version=\"1.0\" encoding=\"CP037\"?>\n");
-def xml = new MarkupBuilder(writer) 
+def xml = new MarkupBuilder(writer)
 xml.manifest(type:"MANIFEST_SHIPLIST"){
 	//top level property will be added as version properties
         //requires UCD v6.2.6 and above
 	property(name : buildResult.getGroup() + "-" + buildResult.getLabel(), value : buildResult.getUrl())
 	//iterate through the outputs and add container and resource elements
-	executes.each{ execute -> 
- 		execute.getOutputs().each{ output -> 
+	executes.each{ execute ->
+ 		execute.getOutputs().each{ output ->
 			def (ds,member) = getDatasetName(output.dataset)
 			container(name:ds, type:"PDS"){
 				resource(name:member, type:"PDSMember", deployType:output.deployType){
-					// add any custom properties needed 
+					// add any custom properties needed
 					property(name:"buildcommand", value:execute.getCommand())
 					property(name:"buildoptions", value:execute.getOptions())
 					// add source information
@@ -112,6 +112,8 @@ def cmd = [ properties.buztoolPath,
         "-s",
 	"$properties.workDir/shiplist.xml",
         //requires UCD v6.2.6 and above
+        "-ar",
+        properties.artifactrepository
 	"-o",
 	"${properties.workDir}/buztool.output"
     	]
@@ -137,7 +139,7 @@ if(rc==0){
 }
 
 /**
- * parse data set name and member name 
+ * parse data set name and member name
  * @param fullname e.g. BLD.LOAD(PGM1)
  * @return e.g. (BLD.LOAD, PGM1)
  */
@@ -151,7 +153,7 @@ def getDatasetName(String fullname){
 
 def parseInput(String[] cliArgs){
 	def cli = new CliBuilder(usage: "deploy.groovy [options]")
-	cli.b(longOpt:'buztool', args:1, argName:'file', 'Absolute path to UrbanCode Deploy buztool.sh script') 
+	cli.b(longOpt:'buztool', args:1, argName:'file', 'Absolute path to UrbanCode Deploy buztool.sh script')
 	cli.w(longOpt:'workDir', args:1, argName:'dir', 'Absolute path to the DBB build output directory')
 	cli.c(longOpt:'component', args:1, argName:'name', 'Name of the UCD component to create version in')
 	cli.h(longOpt:'help', 'Prints this message')
@@ -159,7 +161,7 @@ def parseInput(String[] cliArgs){
 	if (opts.h) { // if help option used, print usage and exit
 	 	cli.usage()
 		System.exit(0)
-	}                
+	}
 
 	def properties = new Properties()
 
@@ -171,7 +173,7 @@ def parseInput(String[] cliArgs){
 		buildPropFile.withInputStream {
     			buildProperties.load(it)
 		}
-		if (buildProperties.workDir != null)    
+		if (buildProperties.workDir != null)
 		properties.workDir = buildProperties.workDir
 	}
 
