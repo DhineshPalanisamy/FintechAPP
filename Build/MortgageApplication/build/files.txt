@@ -6,7 +6,10 @@ Build/MortgageApplication/cobol/epsnbrvl.cbl
 Build/MortgageApplication/cobol_cics/epscsmrd.cbl
 Build/MortgageApplication/cobol_cics/epscsmrt.cbl
 Build/MortgageApplication/cobol_cics_db2/epscmort.cbl
-Build/MortgageApplication/cobol_cics_db2/CBSRGDBB.cbl
+Build/MortgageApplication/cobol_cics_db2/CBSCSRG.cbl
+Build/MortgageApplication/cobol_cics_db2/CBSCSDG.cbl
+Build/MortgageApplication/cobol_cics_db2/CBSCSPYT.cbl
+Build/MortgageApplication/cobol_cics_db2/CBSCSREV.cbl
 Build/MortgageApplication/link/epsmlist.lnk
 Build/MortgageApplication/mfs/dfsiv1.mfs
 Build/MortgageApplication/copybook/epsmortf.cpy
