@@ -32,7 +32,7 @@
       *    05 WS-INPUT
       *    05 WS-OUTPUT.
       *    COPY RESCPY.
-      *    PROCESS START
+      *    PROCESS START Commented
        PROCEDURE DIVISION.
            MOVE LOW-VALUES TO DCLCBS-ACCT-MSTR-DTL.
            MOVE ACCOUNT-NO TO WS-ACCOUNT-NO-T.
